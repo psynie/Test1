@@ -189,4 +189,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 questionDiv.style.display = "none";
             }, 3000);
        
-
+questionDiv.appendChild(exitBtn);
+    }
+});
