@@ -41,26 +41,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Start experience and play background music on button click
     startBtn.addEventListener("click", function() {
+        console.log("Button clicked"); // Debugging check
         backgroundMusic.play();
         startBtn.style.display = "none"; // Hide start button after clicking
         showCountdown();
     });
 
-    // Event listeners to pause/resume animations on touch/click hold
-    document.addEventListener("touchstart", pauseHearts);
-    document.addEventListener("touchend", resumeHearts);
-    document.addEventListener("mousedown", pauseHearts);
-    document.addEventListener("mouseup", resumeHearts);
-
-    function pauseHearts() {
-        hearts.forEach(heart => heart.classList.add("paused"));
-    }
-
-    function resumeHearts() {
-        hearts.forEach(heart => heart.classList.remove("paused"));
-    }
-
-    // Slower countdown with a 1.5-second delay between each number
     function showCountdown() {
         if (countdownIndex < countdownMessages.length) {
             questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${countdownMessages[countdownIndex]}</p>`;
@@ -71,13 +57,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Show main introduction
     function showIntro() {
         questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${introMessage}</p>`;
         setTimeout(showNextPrompt, 5000); // Show next prompt after 5 seconds
     }
 
-    // Display each main prompt
     function showNextPrompt() {
         if (promptIndex < prompts.length) {
             questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${prompts[promptIndex]}</p>`;
@@ -88,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Prompt before the poem section
     function showPoemPrompt() {
         questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">I have something for you, wanna see? 💌</p>`;
         const yesBtn1 = document.createElement("button");
@@ -106,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function() {
         questionDiv.appendChild(yesBtn2);
     }
 
-    // Interactive reveal of poem lines with a background color fade
     function showPoemLineByLine() {
         body.classList.add("poem-background"); // Add background transition during poem
         showNextPoemLine();
@@ -129,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Explanation of the poem - Part 1
     function showPoemExplanationPart1() {
         const explanationPart1 = `
             In this, I’ve compared you to the moon, my love.<br>
@@ -139,56 +120,23 @@ document.addEventListener("DOMContentLoaded", function() {
             bringing peace to everyone around you.<br>
         `;
         questionDiv.innerHTML = `<p style="font-size: 20px; color: #4a2c54;" class="fade-in">${explanationPart1}</p>`;
-        setTimeout(showPoemExplanationPart2, 10000); // Show next part of explanation after 10 seconds
+        setTimeout(showPoemExplanationPart2, 10000);
     }
 
-    // Explanation of the poem - Part 2
     function showPoemExplanationPart2() {
         const explanationPart2 = `
             "Your light calms the restless seas"—this line represents<br>
             how your presence soothes my soul in the deepest way.<br>
             Just like the moon controls the tides, you guide my life with gentle strength.<br><br>
-            And finally, "I thank the heavens for my moon":<br>
-            I’m endlessly grateful to have you. You are my moon, my peace, and my light.<br>
+            And finally, "I thank the heavens for my moon"<br>
+            because I’m grateful every day for having you.<br>
         `;
         questionDiv.innerHTML = `<p style="font-size: 20px; color: #4a2c54;" class="fade-in">${explanationPart2}</p>`;
-        setTimeout(showGratitudePage, 12000); // Show gratitude page after 12 seconds
+        setTimeout(showGratitudeMessage, 10000);
     }
 
-    // New gratitude page
-    function showGratitudePage() {
-        const gratitudeMessage = `
-            Thank you for being the light in my life, and for bringing so much happiness.<br>
-            I am beyond lucky to have you by my side every day.<br><br>
-            With you,I cherish every moment.<br>
-            You are truly a blessing, and I’m endlessly grateful for you.<br>
-        `;
-        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${gratitudeMessage}</p>`;
-        setTimeout(showFinalMessage, 10000); // Show final message after 10 seconds
-    }
-
-    // Final message before ending experience
-    function showFinalMessage() {
-        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in sparkle">And that’s it, my love. 💖<br><br>
-        Click "I love you" to close this. 😘🌹</p>`;
-        
-        const exitBtn = document.createElement("button");
-        exitBtn.textContent = "I love you";
-        exitBtn.classList.add("button");
-
-        const animatedHeart = document.createElement("div");
-        animatedHeart.classList.add("animated-heart");
-
-        exitBtn.onclick = function() {
-            questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in sparkle">I love you too!!! 😘💞</p>`;
-            exitBtn.style.display = "none";
-            questionDiv.appendChild(animatedHeart);
-            backgroundMusic.pause(); // Pause background music
-            setTimeout(function() {
-                // Hide the entire question div to finish the experience
-                questionDiv.style.display = "none";
-            }, 3000);
-       
-questionDiv.appendChild(exitBtn);
+    function showGratitudeMessage() {
+        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">Thank you for being my moon and my everything. 🌙💕</p>`;
     }
 });
+
