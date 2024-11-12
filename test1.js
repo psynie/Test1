@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
     const questionDiv = document.getElementById("question");
     const startBtn = document.getElementById("startBtn");
+    const hearts = document.querySelectorAll(".heart");
+    const body = document.body;
 
     // Background music setup
     const backgroundMusic = new Audio('background.mp3');
     backgroundMusic.loop = true;
-    backgroundMusic.volume = 0.2; 
+    backgroundMusic.volume = 0.2;
 
     // Countdown messages and main prompts
     const countdownMessages = [
@@ -22,22 +24,20 @@ document.addEventListener("DOMContentLoaded", function() {
         "Here’s to more beautiful memories and more love. Happy Birthday, my angel! 💕"
     ];
 
-    // "What I Love About You" statements
-    const loveStatements = [
-        "Your smile, it brightens my darkest days. 😊",
-        "The way you laugh, it’s contagious and full of life. 💖",
-        "Your kindness toward everyone around you amazes me. 🌹",
-        "How you make me feel loved, like I’m the luckiest person alive. 💫",
-        "Your courage and strength, which inspire me every day. 🌟",
-        "The little things you do, like your good morning texts. 🌄",
-        "Your big dreams and the way you chase them. ✨",
-        "How you see the best in me, even when I can’t. 💕",
-        "Just... everything about you. I love you so much. 💖"
+    const poemLines = [
+        "My love, you are my gentle moon,",
+        "Softly glowing, a tranquil tune.",
+        "In the quiet of night, you rise,",
+        "A silver wonder, lighting skies.",
+        "Your light calms the restless seas,",
+        "With you, I find my sweetest peace.",
+        "As stars fade and shadows swoon,",
+        "I thank the heavens for my moon."
     ];
-    
+
     let countdownIndex = 0;
     let promptIndex = 0;
-    let loveIndex = 0;
+    let poemLineIndex = 0;
 
     // Start experience and play background music on button click
     startBtn.addEventListener("click", function() {
@@ -46,12 +46,26 @@ document.addEventListener("DOMContentLoaded", function() {
         showCountdown();
     });
 
-    // Countdown before intro message
+    // Event listeners to pause/resume animations on touch/click hold
+    document.addEventListener("touchstart", pauseHearts);
+    document.addEventListener("touchend", resumeHearts);
+    document.addEventListener("mousedown", pauseHearts);
+    document.addEventListener("mouseup", resumeHearts);
+
+    function pauseHearts() {
+        hearts.forEach(heart => heart.classList.add("paused"));
+    }
+
+    function resumeHearts() {
+        hearts.forEach(heart => heart.classList.remove("paused"));
+    }
+
+    // Slower countdown with a 1.5-second delay between each number
     function showCountdown() {
         if (countdownIndex < countdownMessages.length) {
             questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${countdownMessages[countdownIndex]}</p>`;
             countdownIndex++;
-            setTimeout(showCountdown, 1000); // 1-second delay between countdown numbers
+            setTimeout(showCountdown, 1500); // 1.5-second delay between countdown numbers
         } else {
             showIntro();
         }
@@ -63,70 +77,110 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(showNextPrompt, 5000); // Show next prompt after 5 seconds
     }
 
-    // Display each main prompt with mini romantic thoughts between them
+    // Display each main prompt
     function showNextPrompt() {
         if (promptIndex < prompts.length) {
             questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${prompts[promptIndex]}</p>`;
             promptIndex++;
-            setTimeout(showMiniThought, 4000); // Show a mini romantic thought in between
+            setTimeout(showNextPrompt, 4000); // Show each prompt for 4 seconds
         } else {
-            showThankYou();
+            showPoemPrompt();
         }
     }
 
-    // Mini romantic thoughts to display between prompts
-    const miniThoughts = [
-        "Just thinking about you makes my heart smile. 💖",
-        "You're my favorite place to be. 💕",
-        "Thank you for being so wonderfully you. 🌹",
-        "Every second with you is a dream come true. 🌟"
-    ];
+    // Prompt before the poem section
+    function showPoemPrompt() {
+        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">I have something for you, wanna see? 💌</p>`;
+        const yesBtn1 = document.createElement("button");
+        const yesBtn2 = document.createElement("button");
 
-    // Show a mini romantic thought for 2 seconds, then return to main prompts
-    function showMiniThought() {
-        const randomThought = miniThoughts[Math.floor(Math.random() * miniThoughts.length)];
-        questionDiv.innerHTML = `<p style="font-size: 20px; color: #4a2c54;" class="fade-in">${randomThought}</p>`;
-        setTimeout(showNextPrompt, 2000); // Return to main prompt sequence
+        yesBtn1.textContent = "yes??";
+        yesBtn2.textContent = "yes!!";
+        yesBtn1.classList.add("button");
+        yesBtn2.classList.add("button");
+
+        yesBtn1.onclick = showPoemLineByLine;
+        yesBtn2.onclick = showPoemLineByLine;
+
+        questionDiv.appendChild(yesBtn1);
+        questionDiv.appendChild(yesBtn2);
     }
 
-    function showThankYou() {
-        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">Thank you for being you, my love! 🌹💖</p>`;
-        setTimeout(showUnlockButton, 5000); // Show unlock button after thank you message
+    // Interactive reveal of poem lines with a background color fade
+    function showPoemLineByLine() {
+        body.classList.add("poem-background"); // Add background transition during poem
+        showNextPoemLine();
     }
 
-    // Unlock button for "What I Love About You" section
-    function showUnlockButton() {
-        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">Tap below to unlock something special... 💌</p>`;
-        const unlockBtn = document.createElement("button");
-        unlockBtn.textContent = "Unlock the Message";
-        unlockBtn.classList.add("button");
-        unlockBtn.onclick = function() {
-            unlockBtn.style.display = "none"; // Hide unlock button after clicking
-            showLoveStatement();
-        };
-        questionDiv.appendChild(unlockBtn);
-    }
-
-    function showLoveStatement() {
-        if (loveIndex < loveStatements.length) {
-            questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${loveStatements[loveIndex]}</p>`;
-            loveIndex++;
-            setTimeout(showLoveStatement, 4000); // Display each love statement for 4 seconds
+    function showNextPoemLine() {
+        if (poemLineIndex < poemLines.length) {
+            questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${poemLines[poemLineIndex]}</p>`;
+            const nextLineBtn = document.createElement("button");
+            nextLineBtn.textContent = "Awww";
+            nextLineBtn.classList.add("button");
+            nextLineBtn.onclick = function() {
+                poemLineIndex++;
+                showNextPoemLine();
+            };
+            questionDiv.appendChild(nextLineBtn);
         } else {
-            showExitMessage();
+            body.classList.remove("poem-background"); // Remove background transition after poem
+            showPoemExplanationPart1();
         }
     }
 
-    function showExitMessage() {
+    // Explanation of the poem - Part 1
+    function showPoemExplanationPart1() {
+        const explanationPart1 = `
+            In this poem, I’ve compared you to the moon, my love.<br>
+            Just as the moon brings calm and wonder to the night,<br>
+            you bring peace and light to my life.<br><br>
+            "Softly glowing, a tranquil tune" reflects your gentle, calming nature,<br>
+            bringing peace to everyone around you.<br>
+        `;
+        questionDiv.innerHTML = `<p style="font-size: 20px; color: #4a2c54;" class="fade-in">${explanationPart1}</p>`;
+        setTimeout(showPoemExplanationPart2, 10000); // Show next part of explanation after 10 seconds
+    }
+
+    // Explanation of the poem - Part 2
+    function showPoemExplanationPart2() {
+        const explanationPart2 = `
+            "Your light calms the restless seas"—this line represents<br>
+            how your presence soothes my soul in the deepest way.<br>
+            Just like the moon controls the tides, you guide my life with gentle strength.<br><br>
+            And finally, "I thank the heavens for my moon":<br>
+            I’m endlessly grateful to have you. You are my moon, my peace, and my light.<br>
+        `;
+        questionDiv.innerHTML = `<p style="font-size: 20px; color: #4a2c54;" class="fade-in">${explanationPart2}</p>`;
+        setTimeout(showFinalMessage, 12000); // Show final message after 12 seconds
+    }
+
+    // New heartfelt message before the final section
+    function showFinalMessage() {
         questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in sparkle">And that’s it, my love. 💖<br><br>
         Thank you for being you. Click "I love you" to close this. 😘🌹</p>`;
+        
         const exitBtn = document.createElement("button");
         exitBtn.textContent = "I love you";
         exitBtn.classList.add("button");
+
+        const animatedHeart = document.createElement("div");
+        animatedHeart.classList.add("animated-heart");
+
         exitBtn.onclick = function() {
             questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in sparkle">I love you too!!! 😘💞</p>`;
             exitBtn.style.display = "none";
+            questionDiv.appendChild(animatedHeart);
+            // End experience immediately after the "I love you too" response
+            backgroundMusic.pause(); // Pause background music
+            setTimeout(function() {
+                // Hide the entire question div to finish the experience
+                questionDiv.style.display = "none";
+            }, 2000); // Hide after 2 seconds
         };
-        questionDiv.appendChild(exitBtn); // Append the exit button to questionDiv
+
+        questionDiv.appendChild(exitBtn);
+        questionDiv.appendChild(animatedHeart);
     }
 });
+
