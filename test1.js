@@ -11,16 +11,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Countdown messages and main prompts
     const countdownMessages = [
-        "3... Ready to discover something beautiful? 💖",
+        "3... Ready to see something beautiful? 💖",
         "2... A moment just for you. 💕",
         "1... Here we go! 🎉"
     ];
-    const introMessage = "Happy Birthday, my love! 🎉💖 Today is all about you. I wanted to make this day unforgettable because you mean the world to me. 💕";
+    const introMessage = "Happy Birthday, my love! 🎉💖 Today is all about you. I wanted to make this day unforgettable because you mean soo much to me. 💕";
     const prompts = [
-        "You’re the kindest person I know, and I’m so grateful for you. 💖",
+        "You’re soooo kind and sweet, and I’m so grateful for you. 💖",
         "Remember our first adventure together? I’ll never forget that day—it was magical, just like you. ✨",
-        "Every moment with you is a gift. Thank you for being my sunshine. ☀️",
-        "Your smile lights up my life, and I hope today brings you all the happiness you bring to me! 🎂",
+        "Every moment with you is a gift. Thank you for always making me feel loved ☀️",
+        "Your smile lights up my day regardless of your presence or not and I hope today brings you all the happiness you bring to me! 🎂",
         "Here’s to more beautiful memories and more love. Happy Birthday, my angel! 💕"
     ];
 
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Explanation of the poem - Part 1
     function showPoemExplanationPart1() {
         const explanationPart1 = `
-            In this poem, I’ve compared you to the moon, my love.<br>
+            In this, I’ve compared you to the moon, my love.<br>
             Just as the moon brings calm and wonder to the night,<br>
             you bring peace and light to my life.<br><br>
             "Softly glowing, a tranquil tune" reflects your gentle, calming nature,<br>
@@ -152,13 +152,25 @@ document.addEventListener("DOMContentLoaded", function() {
             I’m endlessly grateful to have you. You are my moon, my peace, and my light.<br>
         `;
         questionDiv.innerHTML = `<p style="font-size: 20px; color: #4a2c54;" class="fade-in">${explanationPart2}</p>`;
-        setTimeout(showFinalMessage, 12000); // Show final message after 12 seconds
+        setTimeout(showGratitudePage, 12000); // Show gratitude page after 12 seconds
     }
 
-    // New heartfelt message before the final section
+    // New gratitude page
+    function showGratitudePage() {
+        const gratitudeMessage = `
+            Thank you for being the light in my life, and for bringing so much happiness.<br>
+            I am beyond lucky to have you by my side every day.<br><br>
+            With you,I cherish every moment.<br>
+            You are truly a blessing, and I’m endlessly grateful for you.<br>
+        `;
+        questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in">${gratitudeMessage}</p>`;
+        setTimeout(showFinalMessage, 10000); // Show final message after 10 seconds
+    }
+
+    // Final message before ending experience
     function showFinalMessage() {
         questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in sparkle">And that’s it, my love. 💖<br><br>
-        Thank you for being you. Click "I love you" to close this. 😘🌹</p>`;
+        Click "I love you" to close this. 😘🌹</p>`;
         
         const exitBtn = document.createElement("button");
         exitBtn.textContent = "I love you";
@@ -171,16 +183,10 @@ document.addEventListener("DOMContentLoaded", function() {
             questionDiv.innerHTML = `<p style="font-size: 24px; color: #4a2c54;" class="fade-in sparkle">I love you too!!! 😘💞</p>`;
             exitBtn.style.display = "none";
             questionDiv.appendChild(animatedHeart);
-            // End experience immediately after the "I love you too" response
             backgroundMusic.pause(); // Pause background music
             setTimeout(function() {
                 // Hide the entire question div to finish the experience
                 questionDiv.style.display = "none";
-            }, 2000); // Hide after 2 seconds
-        };
-
-        questionDiv.appendChild(exitBtn);
-        questionDiv.appendChild(animatedHeart);
-    }
-});
+            }, 3000);
+       
 
